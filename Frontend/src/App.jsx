@@ -25,35 +25,37 @@ function App() {
 
     const reader = new FileReader();
     reader.onload = function (e) {
-      const data = (e.target.result);
+      const data = e.target.result;
       const workbook = XLSX.read(data, { type: 'binary' });
 
-      const sheetName = workbook.SheetNames[0]; // First sheet
+      const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const emaillist = XLSX.utils.sheet_to_json(worksheet, { header: "A" });
-      const totalemail = emaillist.map(item => item.A)
-      console.log(emaillist)
-      setemaillist(totalemail)
+      const totalemail = emaillist.map(function (item) { return item.A });
+      console.log(totalemail)
+      setemaillist(totalemail);
 
     }
+    reader.readAsBinaryString(file);
+
   }
 
   const send = async (e) => {
     e.preventDefault();
     setstatus(true)
-    try {
-      const response = await axios.post("http://localhost:8080/sendmail", { msg: msg, sub: subjet, emaillist:emillists })
-        .then((data) => {
-          if (data.data === true) {
-            alert("Email send successfully")
-            setstatus(false)
-          } else {
-            alert("Failed")
-          }
 
-        })
+    const response = await axios.post("http://localhost:8080/sendmail", { msg: msg, sub: subjet, emaillist: emillists })
+      .then((data) => {
+        if (data.data === true) {
+          alert("Email send successfully")
+          setstatus(false)
+        } else {
+          alert("Failed")
+        }
 
-    } catch { }
+      })
+
+
   }
 
   return (
@@ -89,7 +91,7 @@ function App() {
             </div>
           </div>
 
-         
+
           <div className="bg-white rounded-2xl p-8 shadow-xl">
             <h2 className="text-2xl font-semibold text-gray-900 mb-6">Upload Recipient List</h2>
             <div className="border-2 border-dashed rounded-xl p-10 text-center">
@@ -101,7 +103,7 @@ function App() {
                 <p className="text-sm text-gray-500">Excel files only (.xlsx, .xls)</p>
               </label>
 
-              
+
               <input
                 id="file-upload"
                 type="file"
