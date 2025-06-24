@@ -8,10 +8,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect("mongodb+srv://selvarannav6231:0EkgTlPt39tagwNv@cluster0.z4jiesj.mongodb.net/passkey?retryWrites=true&w=majority&appName=Cluster0").then(() => {
+mongoose.connect("mongodb+srv://selva:ss123456@cluster0.l0mll3l.mongodb.net/passkey?retryWrites=true&w=majority&appName=Cluster0").then(() => {
     console.log("connected to DB")
-}).catch(() => {
-    console.log("failed")
+}).catch((err) => {
+    console.log("DP failed",err)
 })
 
 const validation = mongoose.model("validation", {}, "bulkmail")
