@@ -44,7 +44,7 @@ function App() {
     e.preventDefault();
     setstatus(true)
 
-    const response = await axios.post("http://localhost:8080/sendmail", { msg: msg, sub: subjet, emaillist: emillists })
+    const response = await axios.post("https://bulkmail-ysvd.onrender.com/sendmail", { msg: msg, sub: subjet, emaillist: emillists })
       .then((data) => {
         if (data.data === true) {
           alert("Email send successfully")
